@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkey Number - Покупка Telegram аккаунтов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .logo span {
+            color: #764ba2;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        /* Страны */
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .country-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .country-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .country-flag {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .country-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .country-price {
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .country-price-ton {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Способы оплаты */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Корзина */
+        .cart {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #667eea;
+        }
+
+        /* Кнопки */
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1001;
+            display: none;
+            max-width: 300px;
+        }
+
+        .notification.success {
+            border-left: 5px solid #28a745;
+        }
+
+        .notification.error {
+            border-left: 5px solid #dc3545;
+        }
+
+        .notification.warning {
+            border-left: 5px solid #ffc107;
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .support-link {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .support-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .countries-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .stats {
+                gap: 10px;
+            }
+            
+            .stat-item {
+                min-width: 120px;
+                padding: 10px 15px;
+            }
+        }
+
+        /* Загрузка */
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Monkey<span>Number</span></div>
+            <div class="tagline">Telegram аккаунты из разных стран. Быстро, безопасно, анонимно</div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">1 TON</div>
+                    <div class="stat-label">= 120 ₽</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalUsers">0</div>
+                    <div class="stat-label">Пользователей</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalPurchases">0</div>
+                    <div class="stat-label">Покупок</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalRevenue">0</div>
+                    <div class="stat-label">Выручка</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="section">
+                <h2 class="section-title">🌍 Выберите страну</h2>
+                <div class="countries-grid" id="countriesGrid">
+                    <!-- Страны будут загружены через JavaScript -->
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">💳 Способы оплаты</h2>
+                <p style="margin-bottom: 20px; color: #666;">Выберите способ оплаты после выбора страны</p>
+                
+                <div class="payment-methods" id="paymentMethods">
+                    <div class="payment-method" data-method="balance">
+                        <div class="payment-icon">💰</div>
+                        <div>Баланс</div>
+                    </div>
+                    <div class="payment-method" data-method="crypto">
+                        <div class="payment-icon">₿</div>
+                        <div>Crypto Bot</div>
+                    </div>
+                    <div class="payment-method" data-method="lolz">
+                        <div class="payment-icon">🛒</div>
+                        <div>Lolz Merchant</div>
+                    </div>
+                </div>
+
+                <div id="currencySelection" style="display: none; margin-top: 20px;">
+                    <h3 style="margin-bottom: 15px;">Выберите валюту:</h3>
+                    <div style="display: grid; gap: 10px;">
+                        <button class="btn" data-currency="usdt">USDT</button>
+                        <button class="btn" data-currency="ton">TON</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="cart" id="cartSection" style="display: none;">
+            <h2 class="section-title">🛒 Ваш заказ</h2>
+            <div id="cartItems">
+                <!-- Товары будут добавлены через JavaScript -->
+            </div>
+            <div class="cart-total" id="cartTotal"></div>
+            <button class="btn" id="checkoutBtn">Перейти к оплате</button>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📱 Как это работает</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">1</div>
+                    <h3 style="margin-bottom: 10px;">Выберите страну</h3>
+                    <p style="color: #666;">Выберите страну для Telegram аккаунта</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">2</div>
+                    <h3 style="margin-bottom: 10px;">Оплатите</h3>
+                    <p style="color: #666;">Выберите удобный способ оплаты</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">3</div>
+                    <h3 style="margin-bottom: 10px;">Получите данные</h3>
+                    <p style="color: #666;">После оплаты получите номер и SMS-код</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно ввода промокода -->
+    <div class="modal" id="promoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('promoModal')">×</span>
+            <h2 style="margin-bottom: 20px;">🎫 Введите промокод</h2>
+            <input type="text" id="promoCodeInput" placeholder="Например: SUMMER2024" 
+                   style="width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-size: 1rem; margin-bottom: 15px;">
+            <button class="btn" onclick="applyPromoCode()">Применить</button>
+            <div id="promoMessage" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оплаты -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('paymentModal')">×</span>
+            <div id="paymentContent">
+                <!-- Контент оплаты будет загружен динамически -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно успешной оплаты -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div style="text-align: center;">
+                <div style="font-size: 4rem; color: #28a745; margin-bottom: 20px;">✅</div>
+                <h2 style="margin-bottom: 15px;">Оплата прошла успешно!</h2>
+                <p style="margin-bottom: 20px; color: #666;" id="successMessage"></p>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <p><strong>Важно:</strong> После получения номера телефона напишите в поддержку для получения SMS-кода:</p>
+                    <p style="margin-top: 10px;">
+                        <a href="https://MonkeyNumberSupport.t.me" target="_blank" 
+                           style="color: #667eea; text-decoration: none; font-weight: bold;">
+                            👉 MonkeyNumberSupport.t.me
+                        </a>
+                    </p>
+                </div>
+                <button class="btn" onclick="closeModal('successModal')">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомление -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Загрузчик -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <div id="loaderText">Загрузка...</div>
+    </div>
+
+    <footer>
+        <p>© 2024 Monkey Number. Все права защищены.</p>
+        <p>Гарантия качества и анонимности. Моментальная доставка после оплаты.</p>
+        <a href="https://MonkeyNumberSupport.t.me" class="support-link" target="_blank">
+            📞 Поддержка: MonkeyNumberSupport.t.me
+        </a>
+    </footer>
+
+    <script>
+        // Данные стран с обновленными ценами
+        const COUNTRIES = [
+            { code: "US", name: "США", price: 35, currency: "₽", emoji: "🇺🇸" },
+            { code: "RU", name: "Россия", price: 250, currency: "₽", emoji: "🇷🇺" },
+            { code: "UA", name: "Украина", price: 199, currency: "₽", emoji: "🇺🇦" },
+            { code: "KZ", name: "Казахстан", price: 199, currency: "₽", emoji: "🇰🇿" },
+            { code: "IN", name: "Индия", price: 35, currency: "₽", emoji: "🇮🇳" },
+            { code: "MM", name: "Мьянма", price: 35, currency: "₽", emoji: "🇲🇲" }
+        ];
+
+        const TON_RATE = 120; // 1 TON = 120 ₽
+        const SUPPORT_URL = "https://MonkeyNumberSupport.t.me";
+
+        // Хранилища данных
+        let userProfile = {
+            balance: 0,
+            purchases: [],
+            usedPromocodes: []
+        };
+
+        let selectedCountry = null;
+        let selectedPaymentMethod = null;
+        let selectedCurrency = null;
+        let activePromocode = null;
+        let cart = [];
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            initCountries();
+            initPaymentMethods();
+            updateStats();
+            loadUserProfile();
+        });
+
+        // Инициализация списка стран
+        function initCountries() {
+            const grid = document.getElementById('countriesGrid');
+            grid.innerHTML = '';
+            
+            COUNTRIES.forEach(country => {
+                const priceTON = convertRubToTon(country.price);
+                
+                const countryCard = document.createElement('div');
+                countryCard.className = 'country-card';
+                countryCard.innerHTML = `
+                    <div class="country-flag">${country.emoji}</div>
+                    <div class="country-name">${country.name}</div>
+                    <div class="country-price">${country.price} ${country.currency}</div>
+                    <div class="country-price-ton">(~${priceTON} TON)</div>
+                `;
+                
+                countryCard.addEventListener('click', () => selectCountry(country));
+                grid.appendChild(countryCard);
+            });
+        }
+
+        // Инициализация способов оплаты
+        function initPaymentMethods() {
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.addEventListener('click', function() {
+                    if (!selectedCountry) {
+                        showNotification('Сначала выберите страну', 'warning');
+                        return;
+                    }
+                    
+                    selectedPaymentMethod = this.dataset.method;
+                    
+                    // Если выбран баланс и его достаточно
+                    if (selectedPaymentMethod === 'balance') {
+                        if (userProfile.balance >= selectedCountry.price) {
+                            addToCart();
+                        } else {
+                            showNotification('Недостаточно средств на балансе', 'error');
+                        }
+                    } 
+                    // Если выбран Crypto Bot
+                    else if (selectedPaymentMethod === 'crypto') {
+                        document.getElementById('currencySelection').style.display = 'block';
+                        document.querySelectorAll('[data-currency]').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                selectedCurrency = this.dataset.currency;
+                                addToCart();
+                                document.getElementById('currencySelection').style.display = 'none';
+                            });
+                        });
+                    }
+                    // Если выбран Lolz Merchant
+                    else if (selectedPaymentMethod === 'lolz') {
+                        selectedCurrency = 'rub';
+                        addToCart();
+                    }
+                });
+            });
+        }
+
+        // Выбор страны
+        function selectCountry(country) {
+            selectedCountry = country;
+            showNotification(`Выбрана страна: ${country.name}`, 'success');
+            
+            // Сброс выбранного способа оплаты
+            selectedPaymentMethod = null;
+            selectedCurrency = null;
+            document.getElementById('currencySelection').style.display = 'none';
+        }
+
+        // Добавление в корзину
+        function addToCart() {
+            if (!selectedCountry || !selectedPaymentMethod) {
+                showNotification('Выберите страну и способ оплаты', 'warning');
+                return;
+            }
+
+            const item = {
+                country: selectedCountry,
+                paymentMethod: selectedPaymentMethod,
+                currency: selectedCurrency,
+                promocode: activePromocode
+            };
+
+            cart = [item]; // В корзине только один товар
+            updateCart();
+            document.getElementById('cartSection').style.display = 'block';
+            
+            showNotification('Товар добавлен в корзину', 'success');
+        }
+
+        // Обновление корзины
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Корзина пуста</p>';
+                cartTotal.innerHTML = '';
+                document.getElementById('cartSection').style.display = 'none';
+                return;
+            }
+
+            const item = cart[0];
+            let finalPrice = item.country.price;
+            let discountText = '';
+            
+            // Применение промокода если есть
+            if (activePromocode) {
+                const discount = activePromocode.type === 'discount' ? 
+                    (finalPrice * activePromocode.value) / 100 : 0;
+                finalPrice -= discount;
+                discountText = `<br><small style="color: #28a745;">Промокод: ${activePromocode.code} (-${discount}₽)</small>`;
+            }
+
+            cartItems.innerHTML = `
+                <div class="cart-item">
+                    <div>
+                        <strong>${item.country.emoji} ${item.country.name}</strong>
+                        <div>Способ оплаты: ${getPaymentMethodName(item.paymentMethod)}</div>
+                        ${item.currency ? `<div>Валюта: ${item.currency.toUpperCase()}</div>` : ''}
+                        ${discountText}
+                    </div>
+                    <div style="font-weight: bold; color: #667eea;">
+                        ${finalPrice} ₽
+                    </div>
+                </div>
+            `;
+
+            cartTotal.innerHTML = `Итого: ${finalPrice} ₽`;
+        }
+
+        // Получение названия способа оплаты
+        function getPaymentMethodName(method) {
+            const names = {
+                'balance': 'Баланс',
+                'crypto': 'Crypto Bot',
+                'lolz': 'Lolz Merchant'
+            };
+            return names[method] || method;
+        }
+
+        // Конвертация рублей в TON
+        function convertRubToTon(amountRub) {
+            return (amountRub / TON_RATE).toFixed(4);
+        }
+
+        // Конвертация TON в рубли
+        function convertTonToRub(amountTon) {
+            return (amountTon * TON_RATE).toFixed(2);
+        }
+
+        // Применение промокода
+        function applyPromoCode() {
+            const codeInput = document.getElementById('promoCodeInput');
+            const code = codeInput.value.trim().toUpperCase();
+            const messageDiv = document.getElementById('promoMessage');
+            
+            if (!code) {
+                messageDiv.innerHTML = '<p style="color: #dc3545;">Введите промокод</p>';
+                return;
+            }
+
+            // Проверка промокода (здесь можно добавить реальную логику)
+            const validPromocodes = {
+                'SUMMER2024': { type: 'discount', value: 10, maxUses: 100 },
+                'MONKEY50': { type: 'balance', value: 50, maxUses: 50 }
+            };
+
+            if (validPromocodes[code]) {
+                const promo = validPromocodes[code];
+                activePromocode = {
+                    code: code,
+                    type: promo.type,
+                    value: promo.value
+                };
+                
+                messageDiv.innerHTML = `<p style="color: #28a745;">✅ Промокод "${code}" активирован!</p>`;
+                updateCart();
+            } else {
+                messageDiv.innerHTML = '<p style="color: #dc3545;">❌ Промокод не найден</p>';
+            }
+        }
+
+        // Обработка оплаты
+        document.getElementById('checkoutBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                showNotification('Корзина пуста', 'error');
+                return;
+            }
+
+            const item = cart[0];
+            showPaymentModal(item);
+        });
+
+        // Показать модальное окно оплаты
+        function showPaymentModal(item) {
+            const modal = document.getElementById('paymentModal');
+            const content = document.getElementById('paymentContent');
+            
+            let finalPrice = item.country.price;
+            let discount = 0;
+            
+            if (activePromocode && activePromocode.type === 'discount') {
+                discount = (finalPrice * activePromocode.value) / 100;
+                finalPrice -= discount;
+            }
+
+            if (item.paymentMethod === 'balance') {
+                content.innerHTML = `
+                    <h2 style="margin-bottom: 20px;">💰 Оплата балансом</h2>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <p><strong>Страна:</strong> ${item.country.emoji} ${item.country.name}</p>
+                        <p><strong>Цена:</strong> ${item.country.price} ₽</p>
+                        ${discount > 0 ? `<p><strong>Скидка:</strong> ${discount} ₽ (промокод: ${activePromocode.code})</p>` : ''}
+                        <p><strong>Итого к оплате:</strong> ${finalPrice} ₽</p>
+                        <p><strong>Ваш баланс:</strong> ${userProfile.balance} ₽</p>
+                        <p><strong>Баланс после оплаты:</strong> ${userProfile.balance - finalPrice} ₽</p>
+                    </div>
+                    <button class="btn" onclick="processBalancePayment()">Оплатить ${finalPrice} ₽</button>
+                `;
+            } else if (item.paymentMethod === 'crypto') {
+                const amountCrypto = item.currency === 'ton' ? 
+                    convertRubToTon(finalPrice) : 
+                    (finalPrice / 70).toFixed(4); // Примерный курс USDT
+                    
+                content.innerHTML = `
+                    <h2 style="margin-bottom: 20px;">₿ Оплата через Crypto Bot</h2>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <p><strong>Страна:</strong> ${item.country.emoji} ${item.country.name}</p>
+                        <p><strong>Цена:</strong> ${item.country.price} ₽</p>
+                        ${discount > 0 ? `<p><strong>Скидка:</strong> ${discount} ₽ (промокод: ${activePromocode.code})</p>` : ''}
+                        <p><strong>Итого:</strong> ${finalPrice} ₽ (${amountCrypto} ${item.currency.toUpperCase()})</p>
+                        <p><strong>Курс:</strong> 1 TON = ${TON_RATE} ₽</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn" onclick="simulatePayment()">Оплатить ${amountCrypto} ${item.currency.toUpperCase()}</button>
+                        <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">
+                            После оплаты в @CryptoBot нажмите "Проверить оплату"
+                        </p>
+                    </div>
+                `;
+            } else if (item.paymentMethod === 'lolz') {
+                content.innerHTML = `
+                    <h2 style="margin-bottom: 20px;">🛒 Оплата через Lolz Merchant</h2>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <p><strong>Страна:</strong> ${item.country.emoji} ${item.country.name}</p>
+                        <p><strong>Цена:</strong> ${item.country.price} ₽</p>
+                        ${discount > 0 ? `<p><strong>Скидка:</strong> ${discount} ₽ (промокод: ${activePromocode.code})</p>` : ''}
+                        <p><strong>Итого:</strong> ${finalPrice} ₽</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn" onclick="simulatePayment()">Оплатить ${finalPrice} ₽</button>
+                        <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">
+                            После оплаты на lzt.market нажмите "Проверить оплату"
+                        </p>
+                    </div>
+                `;
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        // Симуляция оплаты (в реальном проекте здесь будет API)
+        function simulatePayment() {
+            showLoader('Обработка платежа...');
+            
+            setTimeout(() => {
+                hideLoader();
+                closeModal('paymentModal');
+                
+                // Обновляем статистику
+                updateStats(true);
+                
+                // Показываем сообщение об успехе
+                const successMessage = `Платеж на сумму ${getCartTotal()} ₽ успешно обработан. 
+                    <br><br>Ожидайте получения номера телефона. 
+                    <br>После получения номера напишите в поддержку для получения SMS-кода.`;
+                
+                document.getElementById('successMessage').innerHTML = successMessage;
+                document.getElementById('successModal').style.display = 'flex';
+                
+                // Очищаем корзину
+                cart = [];
+                selectedCountry = null;
+                selectedPaymentMethod = null;
+                selectedCurrency = null;
+                activePromocode = null;
+                updateCart();
+            }, 2000);
+        }
+
+        // Оплата балансом
+        function processBalancePayment() {
+            const total = getCartTotal();
+            
+            if (userProfile.balance < total) {
+                showNotification('Недостаточно средств на балансе', 'error');
+                return;
+            }
+            
+            userProfile.balance -= total;
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
+            
+            simulatePayment();
+        }
+
+        // Получение общей суммы в корзине
+        function getCartTotal() {
+            if (cart.length === 0) return 0;
+            
+            const item = cart[0];
+            let price = item.country.price;
+            
+            if (activePromocode && activePromocode.type === 'discount') {
+                const discount = (price * activePromocode.value) / 100;
+                price -= discount;
+            }
+            
+            return price;
+        }
+
+        // Обновление статистики
+        function updateStats(addPurchase = false) {
+            // Здесь можно добавить реальную статистику из бэкенда
+            const totalUsers = localStorage.getItem('totalUsers') || 1000;
+            const totalPurchases = localStorage.getItem('totalPurchases') || 500;
+            const totalRevenue = localStorage.getItem('totalRevenue') || 75000;
+            
+            if (addPurchase) {
+                const newPurchases = parseInt(totalPurchases) + 1;
+                const newRevenue = parseInt(totalRevenue) + getCartTotal();
+                
+                localStorage.setItem('totalPurchases', newPurchases);
+                localStorage.setItem('totalRevenue', newRevenue);
+                
+                document.getElementById('totalPurchases').textContent = newPurchases;
+                document.getElementById('totalRevenue').textContent = newRevenue + ' ₽';
+            } else {
+                document.getElementById('totalUsers').textContent = totalUsers;
+                document.getElementById('totalPurchases').textContent = totalPurchases;
+                document.getElementById('totalRevenue').textContent = totalRevenue + ' ₽';
+            }
+        }
+
+        // Загрузка профиля пользователя
+        function loadUserProfile() {
+            const saved = localStorage.getItem('userProfile');
+            if (saved) {
+                userProfile = JSON.parse(saved);
+            }
+        }
+
+        // Показать уведомление
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Показать загрузчик
+        function showLoader(text = 'Загрузка...') {
+            document.getElementById('loaderText').textContent = text;
+            document.getElementById('loader').style.display = 'block';
+        }
+
+        // Скрыть загрузчик
+        function hideLoader() {
+            document.getElementById('loader').style.display = 'none';
+        }
+
+        // Закрыть модальное окно
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Открыть модальное окно промокода
+        window.openPromoModal = function() {
+            document.getElementById('promoCodeInput').value = '';
+            document.getElementById('promoMessage').innerHTML = '';
+            document.getElementById('promoModal').style.display = 'flex';
+        };
+
+        // Обработка клика вне модального окна
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Показать админ панель (скрыта по требованию)
+        window.showAdminPanel = function() {
+            showNotification('Админ панель отключена', 'warning');
+        };
+    </script>
+</body>
+</html>
