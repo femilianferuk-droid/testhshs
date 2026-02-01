@@ -1,0 +1,98 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1>🎮 Игры</h1>
+
+<div class="balance">
+    Баланс: {{ balance }} STAR
+</div>
+
+<nav style="margin: 20px 0;">
+    <a href="/games" class="btn" style="background: #ff9800;">🎮 Игры</a>
+    <a href="/profile" class="btn" style="background: #2196f3;">📊 Профиль</a>
+    {% if user_id|int == 7973988177 %}
+    <a href="/admin" class="btn" style="background: #f44336;">👑 Админ</a>
+    {% endif %}
+    <a href="/logout" class="btn" style="background: #9e9e9e;">🚪 Выйти</a>
+</nav>
+
+<div class="game">
+    <h3>🪙 Monkey Flip</h3>
+    <p>Подбрось банан и угадай сторону!</p>
+    <div id="flip-game">
+        <input type="number" id="flip-bet" placeholder="Ставка (STAR)" min="1" max="{{ balance }}" style="width: 100%; padding: 10px; margin: 5px 0;">
+        <button onclick="playFlip('heads')" class="btn" style="background: #4caf50;">🍌 Banana</button>
+        <button onclick="playFlip('tails')" class="btn" style="background: #ff5722;">🐵 Monkey</button>
+    </div>
+</div>
+
+<div class="game">
+    <h3>🚀 Banana Crash</h3>
+    <p>Забери деньги до краша!</p>
+    <div id="crash-game">
+        <input type="number" id="crash-bet" placeholder="Ставка (STAR)" min="1" max="{{ balance }}" style="width: 100%; padding: 10px; margin: 5px 0;">
+        <button onclick="playCrash()" class="btn" style="background: #9c27b0;">🎮 Играть</button>
+    </div>
+</div>
+
+<div class="game">
+    <h3>🎰 Слот-машина</h3>
+    <p>Крути барабаны и выигрывай!</p>
+    <div id="slot-game">
+        <input type="number" id="slot-bet" placeholder="Ставка (STAR)" min="1" max="{{ balance }}" style="width: 100%; padding: 10px; margin: 5px 0;">
+        <button onclick="playSlot()" class="btn" style="background: #009688;">🎰 Крутить</button>
+    </div>
+</div>
+
+<script>
+async function playGame(game, bet, data = {}) {
+    const response = await fetch('/api/play', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({game, bet, ...data})
+    });
+    
+    const result = await response.json();
+    
+    if (result.error) {
+        alert(result.error);
+        return;
+    }
+    
+    if (result.win) {
+        alert(`🎉 Вы выиграли ${result.amount.toFixed(2)} STAR! Множитель: x${result.multiplier.toFixed(2)}`);
+    } else {
+        alert(`😢 Вы проиграли ${bet} STAR`);
+    }
+    
+    location.reload();
+}
+
+function playFlip(choice) {
+    const bet = parseFloat(document.getElementById('flip-bet').value);
+    if (!bet || bet <= 0) {
+        alert('Введите ставку');
+        return;
+    }
+    playGame('flip', bet, {choice});
+}
+
+function playCrash() {
+    const bet = parseFloat(document.getElementById('crash-bet').value);
+    if (!bet || bet <= 0) {
+        alert('Введите ставку');
+        return;
+    }
+    playGame('crash', bet);
+}
+
+function playSlot() {
+    const bet = parseFloat(document.getElementById('slot-bet').value);
+    if (!bet || bet <= 0) {
+        alert('Введите ставку');
+        return;
+    }
+    playGame('slot', bet);
+}
+</script>
+{% endblock %}
